@@ -688,6 +688,178 @@ public class Solution {
     }
 
     /**
+     * 汉明距
+     * @param x
+     * @param y
+     * @return
+     */
+    public int hammingDistance(int x, int y) {
+        int xor = x ^ y, count = 0;   //异或
+        for (int i=0;i<32;i++)
+            count += (xor >> i) & 1;  //移位后原值xor不变
+        return count;
+    }
+
+    /**
+     * Given s = "Hello World",return 5
+     * @param s
+     * @return
+     */
+    public int lengthOfLastWord(String s) {
+        String[] sc = s.split(" ");
+        int n = sc.length;
+        if (n==1){
+            return sc[0].length();
+        }else if(n > 1){
+            return sc[n-1].length();
+        }else{
+            return 0;
+        }
+    }
+
+
+    /**
+     * 数组表示一个数字的各位数值，执行加1操作并返回
+     * @param digits
+     * @return
+     */
+    public int[] plusOne(int[] digits) {
+        if(digits == null || digits.length==0)
+            return digits;
+        int carry = 1;
+        for(int i=digits.length-1;i>=0;i--)
+        {
+            int digit = (digits[i]+carry)%10;
+            carry = (digits[i]+carry)/10;
+            digits[i] = digit;
+            if(carry==0)
+                return digits;
+        }
+        int [] res = new int[digits.length+1];
+        res[0] = 1;
+        return res;
+    }
+
+    /**
+     * 268. Missing Number,数组长度最小为2
+     * @param nums
+     * @return
+     */
+    public int missingNumber(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int firstnum = nums[0];
+        for(int i = 1; i<n;i++){
+            if(nums[i]==firstnum+1)
+                firstnum ++;
+        }
+        return firstnum+1;
+    }
+
+    /**
+     * Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num
+     * calculate the number of 1's in their binary representation and return them as an array.
+     * For num = 5 you should return [0,1,1,2,1,2]
+     * @param num
+     * @return
+     */
+    public int[] countBits(int num) {
+        int[] result = new int[num+1];
+        for(int i=0; i<=num; i++){
+            result[i] = countEach(i);  //调用下面的方法
+        }
+        return result;
+    }
+
+    public int countEach(int num){   //计算数字二进制中1的个数
+        int result = 0;
+
+        while(num!=0){
+            if(num%2==1){
+                result++;
+            }
+            num = num/2;
+        }
+        return result;
+    }
+
+
+    /**
+     * 34. Search for a Range
+     *  Given [5, 7, 7, 8, 8, 10] and target value 8,return [3, 4].
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        int[] result = { -1, -1 };
+
+        while (left <= right) {
+            int mid = (left + right) / 2;   //二分查找法
+
+            if (nums[mid] > target) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                result[0] = mid;
+                result[1] = mid;
+
+                int i = mid - 1;    //求目标数字的左索引
+                while (i >= 0 && nums[i] == target) {
+                    result[0] = i;
+                    --i;
+                }
+
+                i = mid + 1;   //求目标数字的右索引
+                while (i < nums.length && nums[i] == target) {
+                    result[1] = i;
+                    ++i;
+                }
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 3.Longest Substring Without Repeating Characters
+     * 求字符串不重复的最长子串，返回其长度
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length(); //字符串长度
+        int len = 0; //计算过程中临时长度
+        int maxlen = 0; //最大长度，返回值
+        int start = 0; //返回最长子串的起始位置
+        HashMap<Character,Integer> hashmap = new HashMap<Character,Integer>(); //存在字符和位置
+        if(s == null || n == 0) {
+            return maxlen;
+        }else{
+            for(int i = 0;i<n;i++){
+                if(!hashmap.containsKey(s.charAt(i))){
+                    len++;
+                    if(len > maxlen) maxlen = len;
+                    hashmap.put(s.charAt(i),i);
+                }else{
+                    int j = hashmap.get(s.charAt(i));
+                    for(int k = start;k<=j;k++){
+                        hashmap.remove(s.charAt(k));  //去除索引j之前的元素,根据key删除
+                    }
+                    hashmap.put(s.charAt(i),i);
+                    start = j +1;
+                    len = i-j;
+                }
+            }
+        }
+        return maxlen;
+    }
+
+    /**
      * 15. 3Sum
      * @param nums
      * @return
@@ -1593,6 +1765,33 @@ public class Solution {
             y = temp;
         }
         return new int[]{x,y,z};
+    }
+
+    /**
+     * 剑指offer
+     * 题目：一个二维数组，每一行从左到右递增，每一列从上到下递增．输
+     * 入一个二维数组和一个整数，判断数组中是否含有整数
+     * 解题思路： 从数组右上角元素开始查找
+     * @param array
+     * @param target
+     * @return
+     */
+
+    public boolean find(int[][] array, int target){
+        if(array == null) {
+            return false;
+        }
+        int c = array[0].length-1,r = 0;
+        while(r<array.length && c>=0){
+            if(array[r][c] == target){
+                return true;
+            }else if(array[r][c] < target){
+                r++;
+            }else{
+                c--;
+            }
+        }
+        return false;
     }
 
     /**
