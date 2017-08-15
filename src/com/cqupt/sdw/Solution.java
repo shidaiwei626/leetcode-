@@ -32,24 +32,9 @@ public class Solution {
         return result;
     }
 
-//    public int[] twoSum2(int[] nums, int target) {
-//        int[] result = new int[2];
-//        Map map = new HashMap();
-//        int n = nums.length;
-//        for (int i = 0; i < n; i++) {
-//            if (map.containsKey(target - nums[i])) {
-//                result[1] = i;
-//                result[0] = (int) map.get(target - nums[i]);
-//                return result;
-//            } else {
-//                map.put(nums[i], i);
-//            }
-//        }
-//        return result;
-//    }
-
     /**
-     * 翻转数组，如123变为321，-123变为-321
+     * 7. Reverse Integer,输入为32bit 有符号整数
+     * 翻转数字，如123变为321，-123变为-321
      * @param x
      * @return
      */
@@ -59,31 +44,16 @@ public class Solution {
         while (temp > 0) {
             result = result * 10;
             result = result + temp % 10;
-            while (result > Integer.MAX_VALUE) {
-                return 0;
+            if (result > Integer.MAX_VALUE) {
+                return 0; //溢出时返回0
             }
             temp = temp / 10;
         }
         return (int) (x > 0 ? result : -result);
     }
 
-//    public int r(int x){
-//        int temp = Math.abs(x);
-//        long result = 0;
-//        while(temp > 0){
-//            result =  result *10;
-//            result = result + temp %10;
-//            if(result > Integer.MAX_VALUE) {
-//                return 0;
-//            }
-//            temp = temp / 10;
-//        }
-//        return (int)(x>0? result : -result) ;
-//    }
-
-
     /**
-     * 实现strStr()函数，返回needle在haystack中第一次出现的位置，如果没找到，则返回-1
+     * 28.Implement strStr()函数，返回needle在haystack中第一次出现的位置，如果没找到，则返回-1
      * @param haystack
      * @param needle
      * @return
@@ -99,25 +69,9 @@ public class Solution {
                     break;
                 }
             }
-
         }
         return index;
     }
-
-//    public int strStr2(String haystack, String needle) {
-//        int n1 = haystack.length();
-//        int n2 = needle.length();
-//        int index = -1;
-//        if (n1 >= n2){
-//            for (int i = 0; i<= n1-n2 ; i++){
-//                if (needle.equals(haystack.substring(i,n2+i))){
-//                    index = i;
-//                    break;
-//                }
-//            }
-//        }
-//        return index;
-//    }
 
     /**
      * /给定两个二进制字符串返回其和
@@ -127,16 +81,14 @@ public class Solution {
      * @return
      */
     public String addBinary(String a, String b) {
-        /** i、j分别指向a、b的末尾字符 **/
         int i = a.length() - 1;
         int j = b.length() - 1;
-        /** 进位标记 **/int carry = 0;
-        /** 将String转为char数组 **/
-        char[] achar = a.toCharArray();
+        int carry = 0; //进位标记
+        char[] achar = a.toCharArray();  //将String转为char数组
         char[] bchar = b.toCharArray();
-        /** 结果数组 **/
+        // 结果数组
         char[] resultchar = new char[Math.max(achar.length, bchar.length) + 1];
-        /** 标记结果数组位置 **/
+        // 标记结果数组位置
         int resultIndex = 0;
         while (true) {
             if (i < 0 && j < 0 && carry == 0) break;
@@ -161,37 +113,7 @@ public class Solution {
         return result;
     }
 
-//    public String addBinary2(String a, String b) {
-//        int i = a.length() - 1;
-//        int j = b.length() - 1;
-//        char[] achar = a.toCharArray();
-//        char[] bchar = b.toCharArray();
-//        char[] result = new char[Math.max(achar.length, bchar.length) + 1];
-//        int carry = 0;
-//        int resultIndex = 0;
-//        while (true) {
-//            if (i < 0 && j < 0 && carry == 0) break;
-//            int aflag = 0;
-//            int bflag = 0;
-//            if (i >= 0) aflag = achar[i] - '0';
-//            if (j >= 0) bflag = bchar[j] - '0';
-//            if (aflag + bflag + carry > 1) {
-//                result[resultIndex] = (char) (aflag + bflag + carry - 2 + '0');
-//                carry = 1;
-//            } else {
-//                result[resultIndex] = (char) (aflag + bflag + carry + '0');
-//                carry = 0;
-//            }
-//            resultIndex++;
-//            i--;
-//            j--;
-//        }
-//        String resultout = new String(result, 0, resultIndex);
-//        StringBuffer buffer = new StringBuffer(resultout);
-//        return buffer.reverse().toString();
-//    }
-
-    public String addBinary3(String a, String b) {
+    public String addBinary2(String a, String b) {
         int x = Integer.valueOf(a, 2);
         int y = Integer.valueOf(b, 2);
         int z = x + y;
@@ -230,7 +152,7 @@ public class Solution {
         int begin = 1;
         int end = x;
         while (begin <= end) {
-            mid = begin + (end - begin) / 2;
+            mid = (begin + end)/ 2;
             if (mid == x / mid) {
                 return mid;
             } else if (mid < x / mid) {
@@ -243,25 +165,6 @@ public class Solution {
         return end;
     }
 
-//    public int sqrt(int x){
-//        if (x <= 1)
-//            return x;
-//        int start = 1;
-//        int end = x;
-//        int mid = 0;
-//        while(start <= end){
-//            mid = start + (end -start)/2;
-//            if (mid == x/mid){
-//                return mid;
-//            }else if (mid < x/mid){
-//                start = mid+1;
-//            }else{
-//                end = mid -1;
-//            }
-//        }
-//        return end;
-//    }
-
     /**
      * 73. Set Matrix Zeroes
      * 遍历二维矩阵，使元素为0的行列数据置为0,在遍历第一行和第一列的值，最后遍历首元素
@@ -270,7 +173,6 @@ public class Solution {
     public void setZeroes(int[][] matrix) {
         int r = matrix.length;
         int c = matrix[0].length;
-
         //遍历第一行和第一列，查看是否含有0
         boolean firstRow = false, firstCol = false;
         for (int i = 0; i < r; i++) {
@@ -292,6 +194,8 @@ public class Solution {
                 }
             }
         }
+
+        //将对应的行和列置0
         for (int i = 1; i < r; i++) {
             if (matrix[i][0] == 0) {
                 for (int j = 1; j < c; j++)
@@ -304,6 +208,7 @@ public class Solution {
                     matrix[i][j] = 0;
             }
         }
+
         if (firstRow) {  //首元素最后单独判断，否则会影响第一行和第一列中的元素
             for (int j = 1; j < c; j++) {
                 matrix[0][j] = 0;
@@ -333,7 +238,6 @@ public class Solution {
                 state = true;
             } else if (matrix[i][0] < target) {
                 continue;
-
             } else {
                 for (int j = 1; j < c; j++) {
                     if (matrix[i - 1][j] == target) {
@@ -344,7 +248,6 @@ public class Solution {
         }
         return state;
     }
-
 
     public boolean searchMatrix2(int[][] matrix, int target) {
         //法2:二分查找法
@@ -408,22 +311,18 @@ public class Solution {
     public int uniquePaths(int m, int n) {
         //动态规划问题
         //到达每一个网格的路径数等于它上面和左面网格的路径数之和
-
         int[][] array = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 array[i][j] = 1;
             }
         }
-
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 array[i][j] = array[i - 1][j] + array[i][j - 1];
             }
         }
-
         return array[m - 1][n - 1];
-
     }
 
     /**
@@ -434,19 +333,15 @@ public class Solution {
     public int minPathSum(int[][] grid) {
         //动态规划问题
         //到达每一个网格的最小的和等于它上面和左面网格的最小值加上该网格的值
-
         int m = grid.length;
         int n = grid[0].length;
-
         int[][] paths = new int[m][n];
-
         paths[0][0] = grid[0][0];
 
-        for (int i = 1; i < m; ++i) {    //第一列
+        for (int i = 1; i < m; ++i) {    //第一列，只能从左到右走
             paths[i][0] = paths[i - 1][0] + grid[i][0];
         }
-
-        for (int j = 1; j < n; ++j) {    //第一行
+        for (int j = 1; j < n; ++j) {    //第一行，只能从上到下走
             paths[0][j] = paths[0][j - 1] + grid[0][j];
         }
 
@@ -460,43 +355,13 @@ public class Solution {
     }
 
     /**
-     * 55. Jump Game  解法有问题，有些例子无法通过
-     * @param nums
-     * @return
-     */
-    public boolean canJump(int[] nums) {
-        int s = nums.length;
-        int last = 0;
-        boolean state = false;
-        if (nums != null && s > 0) {
-            if (nums[0] == 0) {
-                return state;
-            } else {
-                for (int i = 0, j = nums[0]; i < s - j; i = i + j) {
-                    j = nums[i];
-                    if (i + j < s) {
-                        last = nums[i + j];
-                        if (last == 0 && last != nums[s - 1])
-                            return state;
-                    }
-                }
-            }
-        }
-
-        if (last == nums[s - 1]) {
-            state = true;
-        }
-
-        return state;
-
-    }
-
-    /**
+     * 55. Jump Game
+     * 给定数组，数组元素表示能前进的最大步数，最开始时在第一个元素位置，是否可到达最后一个元素位置，数组中可能含有0元素
      * 贪心算法：每一步都确定能够跳跃的最大距离，如果最后一个元素在这个距离内则表示可达
      * @param nums
      * @return
      */
-    public boolean canJump2(int[] nums) {
+    public boolean canJump(int[] nums) {
         int size = nums.length;
         if (size <= 0) {
             return false;
@@ -507,62 +372,57 @@ public class Solution {
             if (nums[i] > maxJump) {
                 maxJump = nums[i];//确定该位置能够跳跃的最大距离
             }
-
             if (maxJump >= size - i - 1) {
                 return true;
             }
-
             if (maxJump == 0) {
                 return false;
             }
-
-            maxJump--; //从最大步数到最小步数
+            maxJump--; //下一个位置时，相对于该位置能够达到的最大距离
         }
-
         return false;
     }
 
-    //法3：
-    public boolean canJump3(int[] A) {
-        if(A==null || A.length==0)
+    // 法2：{3,2,1,0,4}
+    public boolean canJump2(int[] A) {
+        if( A== null || A.length == 0)
             return false;
-        int reach = 0;
-        for(int i=0;i<=reach && i<A.length;i++)
-        {
+        int reach = 0;  //表示可达到的距离，对应数组元素索引，当大于最大索引时表示可达
+        for(int i = 0;i <= reach && i < A.length; i++) {
             reach = Math.max(A[i]+i,reach);
         }
-        if(reach<A.length-1)
+        if(reach < A.length-1)
             return false;
         return true;
     }
 
     /**
      * 45. Jump Game II (未理解)
+     * Jump Game的扩展，区别是这道题不仅要看能不能到达终点，而且要求到达终点的最少步数
      * @param A
      * @return
      */
     public int jump(int[] A) {
-        if(A==null || A.length==0)
+        if(A == null || A.length==0)
             return 0;
         int lastReach = 0;
         int reach = 0;
         int step = 0;
-        for(int i=0;i<=reach&&i<A.length;i++)
-        {
-            if(i>lastReach)
-            {
+        for(int i=0;i <= reach && i<A.length;i++) {
+            if(i>lastReach) {
                 step++;
                 lastReach = reach;
             }
             reach = Math.max(reach,A[i]+i);
         }
-        if(reach<A.length-1)
+        if(reach < A.length-1)
             return 0;
         return step;
     }
 
     /**
      * 2. Add Two Numbers
+     * Input: (2 -> 4 -> 3) + (5 -> 6 -> 4),Output: 7 -> 0 -> 8
      * @param l1
      * @param l2
      * @return
@@ -591,6 +451,12 @@ public class Solution {
         return head.next;
     }
 
+    /**
+     * 5. Longest Palindromic Substring. 返回输入字符串的最长回文子串。
+     * 复杂度太高，题目未通过
+     * @param s
+     * @return
+     */
     public String longestPalindrome(String s) {
         String longestPalindrome = null;
         int maxlen = 1;
@@ -599,11 +465,9 @@ public class Solution {
             for (int j = i; j <= nu - maxlen - 1; j++) {
                 String subStr = s.substring(i, j + maxlen); //每次截取字符串长度
                 int len = j + 1 + maxlen - i;
-                if (isPalindrome(subStr)) {
-                    if (len > maxlen) {
-                        longestPalindrome = subStr;
-                        maxlen = len;
-                    }
+                if (isPalindrome(subStr) && len > maxlen) {
+                    longestPalindrome = subStr;
+                    maxlen = len;
                 }
             }
         }
@@ -620,11 +484,9 @@ public class Solution {
     }
 
     public String isPalindrome2(String s) {
-
         if (s.length() == 0 || s.length() == 1) {
             return s;
         }
-
         boolean[][] dp = new boolean[s.length()][s.length()];
         int i, j;
         for (i = 0; i < s.length(); i++) {
@@ -671,10 +533,10 @@ public class Solution {
      * @return
      */
     public int maxArea(int[] height) {
-        int p = 0, maxw = 0;
+        int maxw = 0;
         int left = 0, right = height.length - 1;
         while (left < right) {
-            p = (right - left) * Math.min(height[right], height[left]); //计算面积
+            int p = (right - left) * Math.min(height[right], height[left]); //计算面积
             if (p > maxw) {
                 maxw = p;
             }
@@ -688,7 +550,7 @@ public class Solution {
     }
 
     /**
-     * 汉明距
+     * 汉明距：求异或后计算1的个数，java中int类型固定占4个字节
      * @param x
      * @param y
      * @return
@@ -701,15 +563,15 @@ public class Solution {
     }
 
     /**
-     * Given s = "Hello World",return 5
+     * 返回字符串中最后一个单词的长度 Given s = "Hello World",return 5
      * @param s
      * @return
      */
     public int lengthOfLastWord(String s) {
         String[] sc = s.split(" ");
         int n = sc.length;
-        if (n==1){
-            return sc[0].length();
+        if (n == 1){
+            return s.length();
         }else if(n > 1){
             return sc[n-1].length();
         }else{
@@ -717,43 +579,23 @@ public class Solution {
         }
     }
 
-
     /**
-     * 数组表示一个数字的各位数值，执行加1操作并返回
-     * @param digits
-     * @return
-     */
-    public int[] plusOne(int[] digits) {
-        if(digits == null || digits.length==0)
-            return digits;
-        int carry = 1;
-        for(int i=digits.length-1;i>=0;i--)
-        {
-            int digit = (digits[i]+carry)%10;
-            carry = (digits[i]+carry)/10;
-            digits[i] = digit;
-            if(carry==0)
-                return digits;
-        }
-        int [] res = new int[digits.length+1];
-        res[0] = 1;
-        return res;
-    }
-
-    /**
-     * 268. Missing Number,数组长度最小为2
+     * 268. Missing Number,输入数组大小为0 -- n,Given nums = [0, 1, 3] return 2.
+     * 要求线性的时间复杂度和常数级的空间复杂度
+     * 解法：等差数列求和后减去数组之和，即为丢失的数
      * @param nums
      * @return
      */
     public int missingNumber(int[] nums) {
-        Arrays.sort(nums);
         int n = nums.length;
-        int firstnum = nums[0];
-        for(int i = 1; i<n;i++){
-            if(nums[i]==firstnum+1)
-                firstnum ++;
+        int sum = nums[0];
+        //输入数组可能是单独的0或者1，此时直接执行return语句
+        if (n > 1){
+            for (int i = 1; i< n; i++ ){
+                sum += nums[i];
+            }
         }
-        return firstnum+1;
+        return (int)(0.5 * n * (n + 1)) - sum;
     }
 
     /**
@@ -772,10 +614,9 @@ public class Solution {
     }
 
     public int countEach(int num){   //计算数字二进制中1的个数
-        int result = 0;
-
-        while(num!=0){
-            if(num%2==1){
+        int result = 0;//表示1的个数
+        while(num != 0){
+            if(num % 2 == 1){
                 result++;
             }
             num = num/2;
@@ -783,10 +624,10 @@ public class Solution {
         return result;
     }
 
-
     /**
      * 34. Search for a Range
      *  Given [5, 7, 7, 8, 8, 10] and target value 8,return [3, 4].
+     *  思路：二分查找法找到目标值，然后向左右找到目标值的边缘
      * @param nums
      * @param target
      * @return
@@ -794,12 +635,9 @@ public class Solution {
     public int[] searchRange(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
-
         int[] result = { -1, -1 };
-
         while (left <= right) {
             int mid = (left + right) / 2;   //二分查找法
-
             if (nums[mid] > target) {
                 right = mid - 1;
             } else if (nums[mid] < target) {
@@ -807,17 +645,15 @@ public class Solution {
             } else {
                 result[0] = mid;
                 result[1] = mid;
-
                 int i = mid - 1;    //求目标数字的左索引
                 while (i >= 0 && nums[i] == target) {
                     result[0] = i;
-                    --i;
+                    i--;
                 }
-
                 i = mid + 1;   //求目标数字的右索引
                 while (i < nums.length && nums[i] == target) {
                     result[1] = i;
-                    ++i;
+                    i++;
                 }
                 break;
             }
@@ -827,7 +663,7 @@ public class Solution {
 
     /**
      * 3.Longest Substring Without Repeating Characters
-     * 求字符串不重复的最长子串，返回其长度
+     * 求字符串不重复的最长子串，返回其长度.
      * @param s
      * @return
      */
@@ -836,31 +672,30 @@ public class Solution {
         int len = 0; //计算过程中临时长度
         int maxlen = 0; //最大长度，返回值
         int start = 0; //返回最长子串的起始位置
-        HashMap<Character,Integer> hashmap = new HashMap<Character,Integer>(); //存在字符和位置
+        Map<Character,Integer> hashmap = new HashMap<Character,Integer>(); //存储字符和索引
         if(s == null || n == 0) {
             return maxlen;
-        }else{
-            for(int i = 0;i<n;i++){
-                if(!hashmap.containsKey(s.charAt(i))){
-                    len++;
-                    if(len > maxlen) maxlen = len;
-                    hashmap.put(s.charAt(i),i);
-                }else{
-                    int j = hashmap.get(s.charAt(i));
-                    for(int k = start;k<=j;k++){
-                        hashmap.remove(s.charAt(k));  //去除索引j之前的元素,根据key删除
-                    }
-                    hashmap.put(s.charAt(i),i);
-                    start = j +1;
-                    len = i-j;
+        }
+        for(int i = 0;i<n;i++){
+            if(!hashmap.containsKey(s.charAt(i))){
+                len++;
+                if(len > maxlen) maxlen = len;
+                hashmap.put(s.charAt(i),i);
+            }else{
+                int j = hashmap.get(s.charAt(i));
+                for(int k = start;k<=j;k++){
+                    hashmap.remove(s.charAt(k));  //去除索引j之前的元素,根据key删除
                 }
+                hashmap.put(s.charAt(i),i);
+                start = j +1;
+                len = i-j;
             }
         }
         return maxlen;
     }
 
     /**
-     * 15. 3Sum
+     * 15. 3Sum, 找出数组中三个数字之和为0的所有组合，不能包含重复的组合，但三个数字允许出现重复。
      * @param nums
      * @return
      */
@@ -984,19 +819,11 @@ public class Solution {
         return maxprofit;
     }
 
-    public int maxProfit2(int[] prices) {
-        if (prices == null || prices.length == 0) {
-            return 0;
-        }
-        int curmin = prices[0];
-        int maxprofit = 0;
-        for (int i = 1; i < prices.length; i++) {
-            curmin = Math.min(curmin, prices[i]);
-            maxprofit = Math.max(maxprofit, prices[i] - curmin);
-        }
-        return maxprofit;
-    }
-
+    /**
+     * 56. Merge Intervals,合并给定的区间。如Given [1,3],[2,6],[8,10],[15,18],return [1,6],[8,10],[15,18].
+     * @param intervals
+     * @return
+     */
     public List<Interval> merge(List<Interval> intervals) {
         int nu = intervals.size();
         if (nu <= 1) {
@@ -1030,13 +857,14 @@ public class Solution {
 
     /**
      * 33. Search in Rotated Sorted Array nums
+     * 如数组4 5 6 7 0 1 2，查找值2。数组不能含重复值
      * @param target
      * @return
      */
     public int search(int[] nums, int target) {
-        int left = 0, right = nums.length - 1, mid = 0;
+        int left = 0, right = nums.length - 1;
         while (left <= right) {
-            mid = (left + right) / 2;
+            int mid = (left + right) / 2;
             if (nums[mid] == target) {
                 return mid;
             }
@@ -1060,6 +888,13 @@ public class Solution {
 
     /**
      * 49. Group Anagrams
+     * given: ["eat", "tea", "tan", "ate", "nat", "bat"],
+     * Return:
+     * [
+     * ["ate", "eat","tea"],
+     * ["nat","tan"],
+     * ["bat"]
+     * ]
      * @param strs
      * @return
      */
@@ -1080,7 +915,6 @@ public class Solution {
                 map.get(temp).add(strs[i]);
             }
         }
-
         for (String str : map.keySet()) {
             result.add(map.get(str));
         }
@@ -1120,7 +954,8 @@ public class Solution {
     }
 
     /**
-     * 151. Reverse Words in a String
+     * 151. Reverse Words in a String.
+     * Given s = "the sky is blue", return "blue is sky the".
      * @param s
      * @return
      */
@@ -1138,28 +973,27 @@ public class Solution {
 
         }
         int a = sb.toString().length();
-        return sb.toString().substring(0, sb.toString().length() - 1);
+        return sb.toString().substring(0, a - 1);
     }
 
     /**
-     * 48. Rotate Image,旋转数组90度
+     * 48. Rotate Image,旋转数组90度,输入数组为方阵
      * @param matrix
      */
     public void rotate(int[][] matrix) {
         //思路：首先将数组转置，然后交换列数据
         int row = matrix.length;
         int column = row;
-        int temp = 0;
         for (int i = 0; i < row; i++) {
             for (int j = i + 1; j < column; j++) {
-                temp = matrix[i][j];
+                int temp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
                 matrix[j][i] = temp;
             }
         }
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column / 2; j++) {
-                temp = matrix[i][j];
+                int temp = matrix[i][j];
                 matrix[i][j] = matrix[i][column - 1 - j];
                 matrix[i][column - 1 - j] = temp;
             }
@@ -1242,7 +1076,9 @@ public class Solution {
     }
 
     /**
-     * 82. Remove Duplicates from Sorted List II
+     * 82. Remove Duplicates from Sorted List II，
+     * 去除单链表中重复的数字
+     * Given 1->1->1->2->3, return 2->3
      * @param head
      * @return
      */
@@ -1451,13 +1287,10 @@ public class Solution {
         for(int i=0;i<n2;i++){
             sum2 += (s2[i]-'0') * Math.pow(2,(n2-i-1));
         }
-
         int p = sum1*sum2;
-        if(p <=3 ) return  String.valueOf(p);
-
         int sh = p/2, yu = p%2;   //10进制转2进制
         StringBuilder strb = new StringBuilder();
-        while(sh>=2){
+        while(sh >= 2){
             strb.append(yu);
             yu = sh%2;
             sh = sh/2;
@@ -1915,6 +1748,7 @@ public class Solution {
     /**
      * 计数排序: 在新数组上记录原数组对应索引值的个数
      * 计数数组的长度取决于待排序数组中数据的范围（等于待排序数组的最大值与最小值的差加上1）
+     * 适用情况：待排序数组范围在一个小区间，否则要为计数数组分配很多内存
      * @param arr
      */
     public void countingSort(int[] arr){

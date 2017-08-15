@@ -3,6 +3,7 @@ package com.cqupt.sdw;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -22,7 +23,7 @@ public class Test {
         int index = so.strStr(b,c);
         System.out.println(index);
         String e ="11",f = "11";
-        System.out.println(so.addBinary3(e,f));
+        System.out.println(so.addBinary2(e,f));
 //        char a2 = '1',b2= '0';
 //        int c2 = a2-b2;
 //        System.out.println(c2);
@@ -37,16 +38,16 @@ public class Test {
         System.out.println(so.searchMatrix(j,2));
 
         int[] t= {3,4,1,0,4};
-        System.out.println(so.canJump3(t));
+        System.out.println(so.canJump2(t));
 
         String s = "a";
         System.out.println(so.longestPalindrome(s));
 
-//        int[] nums = {0,0,0};
-//        System.out.println(so.threeSum(nums));
+        int[] nums = {-1,-2,-3,0,-1,1,2,3,4};
+        System.out.println("三数之和为0："+ so.threeSum(nums));
 
         String  digits ="23";
-        System.out.println(so.letterCombinations(digits));
+        System.out.println("字母组合：" + so.letterCombinations(digits));
         System.out.println(so.rob2(t));
 
         List<Interval> intervals =new ArrayList<Interval>(){{add(new Interval(1,3));
@@ -95,8 +96,8 @@ public class Test {
         so.merge(nums1,3,nums2,3);
         System.out.println(Arrays.toString(nums1));
 
-        String s1 = "111",s2 ="011";
-        System.out.println(so.multiply(s1,s2));
+        String s1 = "001",s2 ="010";
+        System.out.println("两个二进制字符串的积：" + so.multiply(s1,s2));
 
 //        String jsonString = "{searchId:1,results:[{roomId:1,rfids:[1,2,3,4]},{roomId:2,rfids:[9,8,7,6]}]}";
 //        JSONObject json = JSON.parseObject(jsonString);
@@ -186,5 +187,24 @@ public class Test {
         so.countingSort(sour);
         System.out.println(Arrays.toString(sour));
 
+        System.out.println(so.getClass().getName()); //获取类名
+        System.out.println(so.getClass().getSuperclass().getName()); //获取父类名
+
+        System.out.println(so.mySqrt(8));
+
+        String cc1 = "hello";
+        String cc2 = "石代伟";
+        System.out.println("cc1长度：" + cc1.length() + "字节数：" + cc1.getBytes().length);
+        System.out.println("cc2长度：" + cc2.length() + "字节数：" + cc2.getBytes().length);
+
+        //StringTokenizer类，分割字符串
+        StringTokenizer st = new StringTokenizer("Welcome to China!");
+        while (st.hasMoreTokens()){
+            System.out.println(st.nextToken());
+        }
+
+    }
+    static{
+        System.out.println("ahahhahaahha");   //静态代码块在main方法之前执行，当类被加载时就会被调用。
     }
 }
