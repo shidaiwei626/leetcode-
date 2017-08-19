@@ -1627,6 +1627,19 @@ public class Solution {
         return false;
     }
 
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> p = new ArrayList<Integer>();
+        ArrayList p2 = p;
+        ListNode temp = listNode;
+        while(temp != null){
+            p.add(temp.val);
+            temp = temp.next;
+        }
+        for(int i = 0; i < p.size(); i++){
+            p2.add(p.get(i));
+        }
+        return p2;
+    }
     /**
      * 冒泡排序法：
      * 思路:两两进行比较，数值大的放在后面，执行一次循环后，最大数值位于最后一位。

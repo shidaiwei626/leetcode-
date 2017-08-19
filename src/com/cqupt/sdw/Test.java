@@ -1,9 +1,6 @@
 package com.cqupt.sdw;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -99,20 +96,21 @@ public class Test {
         String s1 = "001",s2 ="010";
         System.out.println("两个二进制字符串的积：" + so.multiply(s1,s2));
 
-//        String jsonString = "{searchId:1,results:[{roomId:1,rfids:[1,2,3,4]},{roomId:2,rfids:[9,8,7,6]}]}";
-//        JSONObject json = JSON.parseObject(jsonString);
-//        JSONArray jsonArray = (JSONArray) json.get("results");
-//
-//        for (int i = 0 ;i<jsonArray.size();i++){
-//           // System.out.println(jsonArray.get(i));
-//            JSONObject ii = (JSONObject) jsonArray.get(i);
-//           // System.out.println(ii.get("rfids").toString());
-//            ArrayList<Integer> rfidList = (ArrayList) ii.get("rfids");
-//            for (Integer rfid :rfidList){
-//                System.out.println(rfid);
-//            }
-//        }
-        //System.out.println(json.getString("results"));
+        String jsonString = "{searchId:1,results:[{roomId:1,rfids:[{rfid:1},{rfid:2}]},{roomId:2,rfids:[{rfid:9},{rfid:8}]}]}";
+        JSONObject json = JSON.parseObject(jsonString);
+        JSONArray jsonArray = (JSONArray) json.get("results");
+
+        for (int i = 0 ;i<jsonArray.size();i++){
+           // System.out.println(jsonArray.get(i));
+            JSONObject ii = (JSONObject) jsonArray.get(i);
+           // System.out.println(ii.get("rfids").toString());
+           JSONArray rfidList = (JSONArray) ii.get("rfids");
+            for (int k =0; k < rfidList.size(); k++){
+                //String rfid = (String)rfidList.get(k);
+                System.out.println(rfidList.get(k));
+            }
+        }
+        System.out.println(json.getString("results"));
 
         //String searchResults = json.
       //  JSONObject json2 = JSON.parseObject(searchResults);
@@ -122,18 +120,18 @@ public class Test {
         //System.out.println(json2.getString("rfids"));
 
 
-        String jsonString = "{\"searchId\":\"5\",\"results\":[{\"roomId\":\"305\",\"rfids\":[\"005\",\"520\"]},{\"roomId\":\"303\",\"rfids\":[\"53\",\"43\"]},{\"roomId\":\"302\",\"rfids\":[\"30\",\"60\"]}]}";
-        JSONObject json = JSON.parseObject(jsonString);
-        JSONArray jsonArray = (JSONArray) json.get("results"); //获得json数组
-        System.out.println(jsonArray);
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject roomResult = (JSONObject) jsonArray.get(i);
-            //   String roomId = (String) roomResult.get("roomId");
-            JSONArray jsonArray2 = (JSONArray) roomResult.get("rfids");
-            for (int p = 0; p < jsonArray2.size(); p++) {
-                System.out.println((String) jsonArray2.get(p));
-            }
-        }
+//        String jsonStr = "{\"searchId\":\"5\",\"results\":[{\"roomId\":\"305\",\"rfids\":[\"005\",\"520\"]},{\"roomId\":\"303\",\"rfids\":[\"53\",\"43\"]},{\"roomId\":\"302\",\"rfids\":[\"30\",\"60\"]}]}";
+//        JSONObject json = JSON.parseObject(jsonString);
+//        JSONArray jsonArray = (JSONArray) json.get("results"); //获得json数组
+//        System.out.println(jsonArray);
+//        for (int i = 0; i < jsonArray.size(); i++) {
+//            JSONObject roomResult = (JSONObject) jsonArray.get(i);
+//            //   String roomId = (String) roomResult.get("roomId");
+//            JSONArray jsonArray2 = (JSONArray) roomResult.get("rfids");
+//            for (int p = 0; p < jsonArray2.size(); p++) {
+//                System.out.println((String) jsonArray2.get(p));
+//            }
+//        }
 //            String[] rfidList = roomResult.get("rfids").toString().split(",");
 //            for (String rfid : rfidList) {
 //                System.out.println(rfid);

@@ -2,13 +2,14 @@ package com.cqupt.sdw;
 
 /**
  * Created by STONE on 2017/7/21.
- * 定义单链表
+ * 定义链表节点
  */
 public class ListNode {
      int val; //数值域
      ListNode next;  //指针域
-     ListNode(int x) {    //构造方法
-         val = x;
+     ListNode(int val) {    //构造方法
+         this.val = val;
+         this.next = null;
      }
 
     @Override
@@ -17,5 +18,4 @@ public class ListNode {
                 "val=" + val +
                 '}';
     }
-
 }
