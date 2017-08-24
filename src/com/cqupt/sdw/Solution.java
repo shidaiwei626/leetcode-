@@ -1,5 +1,6 @@
 package com.cqupt.sdw;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.lang.*;
 
@@ -1627,19 +1628,38 @@ public class Solution {
         return false;
     }
 
+    /**
+     * 从尾到头打印链表
+     * @param listNode
+     * @return
+     */
     public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
-        ArrayList<Integer> p = new ArrayList<Integer>();
-        ArrayList p2 = p;
-        ListNode temp = listNode;
-        while(temp != null){
-            p.add(temp.val);
-            temp = temp.next;
+        ArrayList<Integer> newHead = new ArrayList<Integer>();
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        while(listNode != null){
+            temp.add(listNode.val);
+            listNode = listNode.next;
         }
-        for(int i = 0; i < p.size(); i++){
-            p2.add(p.get(i));
+        for(int i = temp.size() -1; i >= 0; i--){
+            newHead.add(temp.get(i));
         }
-        return p2;
+        return newHead;
     }
+
+    /**
+     * 递归法:从尾到头打印链表
+     * @param listNode
+     * @return
+     */
+    public ArrayList<Integer> printListFromTailToHead2(ListNode listNode){
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        while(listNode != null){
+            this.printListFromTailToHead(listNode.next);
+            arrayList.add(listNode.val);
+        }
+        return arrayList;
+    }
+
     /**
      * 冒泡排序法：
      * 思路:两两进行比较，数值大的放在后面，执行一次循环后，最大数值位于最后一位。
