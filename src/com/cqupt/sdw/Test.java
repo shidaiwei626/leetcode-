@@ -201,6 +201,9 @@ public class Test {
             System.out.println(st.nextToken());
         }
 
+        String[] strings = {"abcd","def","fgg","gdd"};
+        System.out.println("输入字符串数组是否是GoodString: " + so.isGoodString(strings));
+
     }
     static{
         System.out.println("ahahhahaahha");   //静态代码块在main方法之前执行，当类被加载时就会被调用。

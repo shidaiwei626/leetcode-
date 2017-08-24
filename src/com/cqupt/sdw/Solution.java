@@ -1661,6 +1661,28 @@ public class Solution {
     }
 
     /**
+     * 中兴模拟笔试。判定字符串数组是否是GoodString,
+     * 解释：前一个字符串最后一个字符和后一个字符串第一个字符相同
+     * @param str 字符串数组
+     * @return
+     */
+    public boolean isGoodString(String[] str){
+        int i = 0;
+        while (i < str.length - 1){
+            if (str[i].charAt(str[i].length() - 1) == str[i+1].charAt(0)){
+                i ++;
+            }else{
+                break;
+            }
+        }
+        if (i == str.length - 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
      * 冒泡排序法：
      * 思路:两两进行比较，数值大的放在后面，执行一次循环后，最大数值位于最后一位。
      */
