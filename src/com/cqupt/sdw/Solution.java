@@ -1,6 +1,5 @@
 package com.cqupt.sdw;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.lang.*;
 
@@ -25,7 +24,7 @@ public class Solution {
             if (map.containsKey(target - nums[i])) {
                 result[1] = i;
                 result[0] = map.get(target - nums[i]);
-                return result;
+                break;
             } else {
                 map.put(nums[i], i);
             }
@@ -1680,6 +1679,41 @@ public class Solution {
         }else {
             return false;
         }
+    }
+
+    /**
+     * 题目：删除数组中给定长度的数字位数，返回最大值。如输入31451 ，2 ，返回值351
+     * 思路：每次删除的元素都是从左往右开始第一个出现的小于其右侧相邻元素的元素。
+     * @param arr
+     * @param len
+     * @return
+     */
+    public static int returnMaxNum(int[] arr, int len ){
+        java.util.Stack<Integer> stack = new java.util.Stack<Integer>();
+        stack.push(arr[0]);
+        int i = 1;
+        while (len > 0 && i< arr.length ){
+            if ( !stack.isEmpty() && stack.peek() < arr[i] ) {
+                stack.pop();
+                len--;
+            }
+            stack.push(arr[i]);
+            i++;
+        }
+        while (len > 0) {
+            stack.pop();
+            --len;
+        }
+        int max = 0;
+        for (int c : stack) {
+            max = max * 10;
+            max = c + max;
+        }
+        while (i < arr.length) {
+            max = max * 10;
+            max = arr[i++] + max;
+        }
+        return max;
     }
 
     /**
