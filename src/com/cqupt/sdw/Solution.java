@@ -1717,6 +1717,65 @@ public class Solution {
     }
 
     /**
+     * 中兴笔试题
+     * 计算两个圆的交叉面积
+     * 六个参数，意思分别是第一个圆的圆心，半径，第二个圆的圆心，半径，返回相交部分的面积，如果不相交，则返回零。
+     * @param x1
+     * @param y1
+     * @param r1
+     * @param x2
+     * @param y2
+     * @param r2
+     * @return
+     */
+    public double intersectArea(int x1,int y1,int r1,int x2,int y2,int r2){
+        double s,p,len,area;
+        // int temp;
+        len = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); //两个圆的圆心距
+        if(len >= r1+r2){
+            area = 0;  //两圆不相交，面积为0
+        } else if(len <= Math.abs(r1 - r2)){   //两个圆内切或一个圆在另一个圆的内部
+            if(r1 <= r2)       area = Math.PI * r1 * r1;
+            else            area = Math.PI * r2 * r2;
+        } else{   //两圆相交,面积为两个扇形面积减去两个三角形面积
+            p = (len + r1 + r2)/2; //三角形周长的一半
+            s = 2 * Math.sqrt( p * (p-len) * (p-r1) * (p-r2));  //由周长和三条边计算三角形面积，2表示两个三角形
+//            if(r1 > r2){
+//                temp = x1;
+//                x1 = x2;
+//                x2 = temp;
+//                temp = y1;
+//                y1 = y2;
+//                y2 = temp;
+//                temp = r1;
+//                r1 = r2;
+//                r2 = temp;
+//            }
+            area = Math.acos((r1 * r1 + len * len - r2 * r2)/(2 * r1 * len)) * r1 * r1 +
+                    Math.acos(( r2 * r2 + len * len - r1 * r1)/( 2 * r2 * len)) * r2 * r2 - s;
+            //扇形面积为LR/2,L 表示弧长，R表示半径，弧长 = 半径×弧度，弧度用余弦定理求解
+        }
+        return area;
+    }
+
+    /**
+     * 中兴笔试题目：小明从家走到学校，初始能量为K，距离学校为D，每走一个单位的距离，能量减少1个单位；
+     * 在上学路上，有N个果汁摊，每个摊位都有特定量的果汁，每加一次摊位的果汁量，能量增加对应的单位。
+     * 为能够到达学校，小明需要在果汁摊停下增加果汁(能量)，小明的能量不能为0，返回小明需要停在果汁摊的最小数目。
+     * 若不能到达学校，则返回-1
+     * @param numOfStalls 果汁摊数目
+     * @param distanceOfStalls 果汁摊距离小明家的距离列表
+     * @param juiceQuantity 每个果汁摊可加的果汁容量列表
+     * @param distance 小明家到学校的距离
+     * @param initialEnergy 小明的初始能量
+     * @return
+     */
+    public int addJuiceTimes(int numOfStalls,int[] distanceOfStalls, int[] juiceQuantity,int distance,int initialEnergy){
+        return -1;
+    }
+
+
+    /**
      * 冒泡排序法：
      * 思路:两两进行比较，数值大的放在后面，执行一次循环后，最大数值位于最后一位。
      */
