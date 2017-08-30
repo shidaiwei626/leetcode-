@@ -1763,6 +1763,7 @@ public class Solution {
      * 在上学路上，有N个果汁摊，每个摊位都有特定量的果汁，每加一次摊位的果汁量，能量增加对应的单位。
      * 为能够到达学校，小明需要在果汁摊停下增加果汁(能量)，小明的能量不能为0，返回小明需要停在果汁摊的最小数目。
      * 若不能到达学校，则返回-1
+     * 思路：从家开始，可以判断当前位置与下一个摊位的距离是否超出了能量，超出了就补充到下一个摊位所需的能量，不能补充够的话就返回-1
      * @param numOfStalls 果汁摊数目
      * @param distanceOfStalls 果汁摊距离小明家的距离列表
      * @param juiceQuantity 每个果汁摊可加的果汁容量列表
@@ -1771,9 +1772,36 @@ public class Solution {
      * @return
      */
     public int addJuiceTimes(int numOfStalls,int[] distanceOfStalls, int[] juiceQuantity,int distance,int initialEnergy){
+        int currentEnergy = initialEnergy;
+        if (currentEnergy <= distanceOfStalls[0]){
+            return -1;
+        }
+        int num = 0; //加果汁次数
+        int i;
+        currentEnergy = currentEnergy - distanceOfStalls[0];
+        for (i = 0; i <= numOfStalls-2; i++){
+             if (currentEnergy <= distanceOfStalls[i+1] - distanceOfStalls[i]){
+                 currentEnergy = currentEnergy + juiceQuantity[i];
+                 if (currentEnergy >  distanceOfStalls[i+1] - distanceOfStalls[i]){
+                     num++;
+                     currentEnergy = currentEnergy - (distanceOfStalls[i+1] - distanceOfStalls[i]);
+                 }else{
+                     return -1;
+                 }
+             }else{
+                 currentEnergy = currentEnergy - (distanceOfStalls[i+1] - distanceOfStalls[i]);
+             }
+        }
+        if (i == numOfStalls-2){
+            if (currentEnergy <= distance - distanceOfStalls[numOfStalls-1]){
+                currentEnergy = currentEnergy + juiceQuantity[i];
+                if (currentEnergy >  distance - distanceOfStalls[numOfStalls-1]){
+                    return ++num;
+                }
+            }
+        }
         return -1;
     }
-
 
     /**
      * 冒泡排序法：
