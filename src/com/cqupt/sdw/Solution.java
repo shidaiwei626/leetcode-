@@ -2,6 +2,7 @@ package com.cqupt.sdw;
 
 import java.util.*;
 import java.lang.*;
+import java.util.Stack;
 
 /**
  * Created by STONE on 2017/7/13.
@@ -464,7 +465,7 @@ public class Solution {
         for (int i = 0; i < nu; i++) {
             for (int j = i; j <= nu - maxlen - 1; j++) {
                 String subStr = s.substring(i, j + maxlen); //每次截取字符串长度
-                int len = j + 1 + maxlen - i;
+                int len = j + maxlen - i;
                 if (isPalindrome(subStr) && len > maxlen) {
                     longestPalindrome = subStr;
                     maxlen = len;
@@ -1804,6 +1805,144 @@ public class Solution {
     }
 
     /**
+     * 华为笔试题1
+     * 输入：-123
+     * 输出：
+     * 3
+     *-1 2 3
+     *-321
+     * @param x
+     */
+    public static void reverse2(int x) {
+        int result = 0;
+        int nu = 0;
+        int temp = Math.abs(x);
+        while (temp > 0) {
+            result = result * 10;
+            result = result + temp % 10;
+            nu++;
+            temp = temp / 10;
+        }
+        temp = Math.abs(x);
+        System.out.println(nu);
+        int[] arr = new int[nu];
+        for (int i = nu-1; i>= 0; i--){
+            int j = temp - temp/10*10;
+            arr[i] = j;
+            temp = temp/ 10;
+        }
+        if (x>=0){
+            for (int i = 0;i<nu-1; i++){
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println(arr[nu-1]);
+        }else{
+            arr[0] = -arr[0];
+            for (int i = 0;i<nu-1; i++){
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println(arr[nu-1]);
+        }
+        System.out.println(x > 0 ? result : -result);
+    }
+
+    /**
+     * 判断输入字符串是否是匹配的，输入中仅含[],()四种符号
+     * 思路：1.字符串长度为奇数时，符号不匹配。
+     * @param str
+     */
+    public void check(String str) {
+        Stack<Character> st = new Stack<Character>();
+        int count = 0;
+        if (str.length() % 2 != 0) {
+            System.out.println("符号不匹配");
+        } else {
+            for (int i = 0; i < str.length(); i++) {
+                if (st.isEmpty()) {
+                    st.push(str.charAt(i)); //当前栈为空，则存入当前位置的字符
+                } else if ((st.peek() == '[' && str.charAt(i) == ']') || (st.peek() == '(' && str.charAt(i) == ')')) {
+                    st.pop();  //满足条件时，进行出栈操作
+                    count++;
+                } else {  //栈非空，且该字符和前一字符不能成对时，如[(
+                    st.push(str.charAt(i));
+                }
+            }
+            if (st.isEmpty()) {
+                System.out.println("符号匹配" + "匹配对为：" + count);
+            } else {
+                System.out.println("符号不匹配");
+            }
+        }
+    }
+
+    /**
+     * 检查输入的字符串中()是否匹配 (新华三笔试题目)
+     * @param str
+     */
+    public void checkParentheses(String str){
+        Stack<Character> st = new Stack<Character>();
+        int count = 0; //圆括号数目
+        if (str.length() % 2 != 0) {
+            System.out.println("符号不匹配");
+        } else {
+            for (int i = 0; i < str.length(); i++) {
+                if (st.isEmpty()) {
+                    st.push(str.charAt(i)); //当前栈为空，则存入当前位置的字符
+                } else if (st.peek() == '(' && str.charAt(i) == ')') {
+                    st.pop();  //满足条件时，进行出栈操作
+                    count++;
+                } else {  //栈非空，且该字符和前一字符不能成对时，如((
+                    st.push(str.charAt(i));
+                }
+            }
+            if (st.isEmpty()) {
+                System.out.println("符号匹配" + "匹配对为：" + count);
+            } else {
+                System.out.println("符号不匹配");
+            }
+        }
+    }
+
+    /**
+     * 输入为梯子总数，小明每次可以爬1,2,3节，求小明爬到最上面有多少种方法。(vivo笔试题目)
+     * @param n
+     * @return
+     */
+    public int climbLadderNum(int n){
+
+     return -1;
+    }
+
+    /**
+     * 把只包含因子2,3和5的数称为丑数（Ugly Number),求解第n个丑数,习惯上把1当做第一个丑数(虽然因数不是2,3,5)
+     * @param n
+     * @return
+     */
+    public int getUglyNum(int n){
+        int i ;
+        int count = 0;
+        for(i = 1;count <= n;i++){
+            if(isUglyNum(i)){
+                count++;
+            }
+        }
+        return i;
+    }
+
+    public static boolean isUglyNum(int n){
+        while( n % 3 == 0){
+            n = n/3;
+        }
+        while( n % 2 == 0){
+            n = n/2;
+        }
+        while( n % 5 == 0){
+            n = n/5;
+        }
+        return  n == 1 ? true :false;
+    }
+
+    /**
      * 冒泡排序法：
      * 思路:两两进行比较，数值大的放在后面，执行一次循环后，最大数值位于最后一位。
      */
@@ -1906,19 +2045,69 @@ public class Solution {
     }
 
     /**
-     * 希尔排序：
-     * @param arr
+     * 希尔排序原理：将待排序的数组元素分成多个子序列，使得每个子序列的元素个数相对较少，
+     * 然后对各个子序列分别进行直接插入排序，待整个待排序列“基本有序”后，最后在对所有元素进行一次直接插入排序。
+     * 希尔排序对直接插入排序算法的优化和升级。
+     * @param data
      */
-    public void shellSort(int[] arr){
-
+    public void shellSort(int[] data){
+        int j,temp = 0;
+        for (int increment = data.length / 2; increment > 0; increment /= 2) {  //每次增量设置为数组长度的一半
+            System.out.println("increment:" + increment);
+            for (int i = increment; i < data.length; i++) {
+                temp = data[i];
+                for (j = i - increment; j >= 0; j -= increment) {
+                    if (temp < data[j]) {
+                        data[j + increment] = data[j];
+                    } else {
+                        break;
+                    }
+                }
+                data[j + increment] = temp;
+            }
+            for (int i = 0; i < data.length; i++){
+                System.out.print(data[i] + " ");  //循环一次后打印
+            }
+            System.out.println();
+        }
     }
 
     /**
-     * 快速排序
+     * 快速排序:基于分治思想，是冒泡排序的改进型.
+     * 选择一个关键值作为基准值。比基准值小的都在左边序列（一般是无序的），
+     * 比基准值大的都在右边（一般是无序的）。一般选择序列的第一个元素。
      * @param arr
      */
-    public void quickSort(int[] arr){
-
+    public void quickSort(int[] arr, int low , int high){
+        int start = low;
+        int end = high;
+        int key = arr[low];//基准值
+        while (end > start){
+            //从后向前比较
+            while(end > start && arr[end] >= key){
+                end--;
+            }
+            if (arr[end] <= key){
+                int temp = arr[end];
+                arr[end] = arr[start];
+                arr[start] = temp;
+            }
+            //从前向后比较
+            while(end > start && arr[start] <= key){
+                start++;
+            }
+            if (arr[start] >= key){
+                int temp = arr[start];
+                arr[start] = arr[end];
+                arr[end] = temp;
+            }
+        }//第一次循环结束，左边的值都比基准值小，右边的值都比基准值大
+        if (start > low ){
+            quickSort(arr, low ,start - 1);
+        }
+        if (end < high){
+            quickSort(arr, end + 1, high);
+        }
     }
 
     /**
@@ -1954,11 +2143,42 @@ public class Solution {
     }
 
     /**
-     * 基数排序
-     * @param arr
+     * 基数排序,桶排序
+     * 算法思想：1. 初始化：构造一个10*n的二维数组，一个长度为n的数组用于存储每次位排序时每个桶子里有多少个元素。
+     * 2.循环操作：从低位开始（我们采用LSD的方式），将所有元素对应该位的数字存到相应的桶子里去（对应二维数组的那一列）。
+     * 然后将所有桶子里的元素按照桶子标号从小到大取出，对于同一个桶子里的元素，先放进去的先取出，后放进去的后取出（保证排序稳定性）。
+     * 这样原数组就按该位排序完毕了，继续下一位操作，直到最高位排序完成。
+     * @param array
      */
-    public void radixSort(int[] arr){
-
+    public void radixSort(int[] array, int d){
+        int n = 1;//代表位数对应的数：1,10,100...
+        int k = 0;//保存每一位排序后的结果用于下一位的排序输入
+        int length = array.length;
+        int[][] bucket=new int[10][length];//排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
+        int[] order=new int[length];//用于保存每个桶里有多少个数字
+        while(n < d)
+        {
+            for(int num:array) //将数组array里的每个数字放在相应的桶里
+            {
+                int digit=(num/n)%10;
+                bucket[digit][order[digit]]=num;
+                order[digit]++;
+            }
+            for(int i=0;i<length;i++)//将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
+            {
+                if(order[i]!=0)//这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
+                {
+                    for(int j=0;j<order[i];j++)
+                    {
+                        array[k]=bucket[i][j];
+                        k++;
+                    }
+                }
+                order[i]=0;//将桶里计数器置0，用于下一次位排序
+            }
+            n*=10;
+            k=0;//将k置0，用于下一轮保存位排序结果
+        }
     }
 
     /**

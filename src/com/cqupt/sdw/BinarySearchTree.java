@@ -1,6 +1,9 @@
 package com.cqupt.sdw;
 
-import java.util.NoSuchElementException;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.*;
+import java.util.LinkedList;
 
 /**
  * Created by Shidw on 2017/8/19.
@@ -21,57 +24,47 @@ public class BinarySearchTree {
     }
 
     /**
-     * BST插入数据
+     * BST插入数据,构建BST时插入
      * @param data
      */
     public void insert(int data){
+        TreeNode newNode =  new TreeNode(data);
        if (rootNode == null){
-           rootNode = new TreeNode(data);
+           rootNode = newNode;
            return;
+       }else{
+           TreeNode current = rootNode;
+           TreeNode parent; //新节点的父节点
+           while (true){
+               parent = current;
+               if (data <= current.val){
+                   current = current.left;
+                   if (current == null){
+                       parent.left = newNode;
+                       return;
+                   }else {
+
+                   }
+               }else {
+                   current = current.right;
+                   if (current == null){
+                       parent.right = newNode;
+                       return;
+                   }
+               }
+           }
        }
-       TreeNode newNode = new TreeNode(data);
-       TreeNode iterator = rootNode;
-       TreeNode parent = null; //新节点的父节点
-        while (iterator != null){
-            parent = iterator;
-            if (data <= iterator.val){
-                iterator = iterator.left;
-            }else {
-                iterator = iterator.right;
-            }
-        }
-        if (data <= parent.val){
-            parent.left = newNode;
-        }else {
-            parent.right = newNode;
-        }
     }
 
-//    //将指定的值加入到二叉树中适当的节点
-//    public void Add_Node_To_Tree(int val){
-//        TreeNode currentNode = rootNode;
-//        if (rootNode == null){
-//            rootNode = new TreeNode(val);
-//            return;
-//        }
-//        //建立二叉树
-//        while (true){
-//            if (val < currentNode.val) {
-//                if (currentNode.left == null){
-//                    currentNode.left = new TreeNode(val);
-//                    return;
-//                }else {
-//                    currentNode = currentNode.left;
-//                }
-//            }else {
-//                if (currentNode.right == null){
-//                    currentNode.right = new TreeNode(val);
-//                }else {
-//                    currentNode = currentNode.right;
-//                }
-//            }
-//        }
-//    }
+    /**
+     * 将数值插入构建二叉树
+     * @param arr
+     */
+    public void buildBST(int[] arr){
+        for (int i = 0; i < arr.length; i++){
+            insert(arr[i]);
+        }
+    }
 
     /**
      * BST 中查找数据，并返回该节点，否则为null
@@ -79,14 +72,14 @@ public class BinarySearchTree {
      * @return
      */
     public TreeNode search(int data){
-        TreeNode iterator = rootNode;
-        while(iterator != null){
-            if (iterator.val == data){
-                return iterator;
-            }else if (data <= iterator.val){
-                iterator = iterator.left;
+        TreeNode current = rootNode;
+        while(current != null){
+            if (current.val == data){
+                return current;
+            }else if (data <= current.val){
+                current = current.left;
             }else {
-                iterator = iterator.right;
+                current = current.right;
             }
         }
         return null;
@@ -162,82 +155,151 @@ public class BinarySearchTree {
         }
     }
 
-    public void printInOrder() {	// Function to call inorder printing using root
-        if (rootNode == null)
-            System.out.println("Cannot print! BST is empty");
-        print(rootNode);
-        System.out.println(" ");
-    }
-
     /**
-     *递归 中序遍历打印：左子树--根--右子树
-     * @param node
+     * 递归 中序遍历打印：左子树--根--右子树
+     * 输出从小到达排序
+     * @param rootNode
      */
-    private void print(TreeNode node) {
-        if (node != null) {
-            print(node.left);
-            System.out.print(node.val + " ");
-            print(node.right);
+    public void printInOrder(TreeNode rootNode) {
+        if (rootNode != null) {
+            printInOrder(rootNode.left);
+            System.out.print(rootNode.val + " ");
+            printInOrder(rootNode.right);
         }
     }
 
     /**
      * 递归 前序遍历打印： 根--左子树--右子树
-     * @param node
+     * @param rootNode
      */
-    private void prePrint(TreeNode node){
-        if (node != null){
-            System.out.println(node.val + " ");
-            prePrint(node.left);
-            prePrint(node.right);
+    public void printPreOrder(TreeNode rootNode){
+        if (rootNode != null){
+            System.out.print(rootNode.val + " ");
+            printPreOrder(rootNode.left);
+            printPreOrder(rootNode.right);
         }
     }
 
     /**
      * 递归 后序遍历打印： 左子树--右子树--根
-     * @param node
+     * @param rootNode
      */
-    private void postPrint(TreeNode node){
-        if (node != null){
-            postPrint(node.left);
-            postPrint(node.right);
-            System.out.println(node.val + " ");
+    public void printPostPrint(TreeNode rootNode){
+        if (rootNode != null){
+            printPostPrint(rootNode.left);
+            printPostPrint(rootNode.right);
+            System.out.print(rootNode.val + " ");
         }
     }
 
-    public static void main(String[] args) {
+    /**
+     * 层序遍历二叉树，按层打印节点
+     * 思路：先将根节点放在队列中，然后每次都从队列中取出一个节点并打印该节点的值，
+     *       若该节点有子节点，则将它的子节点放入队列尾，直到队列为空。
+     */
+    public void layerPrint(){
+         if (this.rootNode == null)
+             return;
+        java.util.Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.add(this.rootNode);
+        while (!q.isEmpty()){
+            TreeNode node = q.poll();
+            System.out.print(node.val);
+            System.out.print(" ");
+            if (node.left != null){
+                q.add(node.left);
+            }
+            if (node.right != null){
+                q.add(node.right);
+            }
+        }
+    }
 
-        // Created an empty tree
+    /**
+     * 由二叉树的前序遍历和中序遍历构造该二叉树
+     * 思路：1.确定树的根节点。前序遍历的第一个节点即为根节点
+     *       2.求解树的子树。根据上一步的根节点，在中序遍历中该节点左边为左子树，右边为右子树
+     *       3.对根节点的左、右子树递归求解步骤1、2
+     * @param preOrder
+     * @param inOrder
+     */
+    public void initTree(int[] preOrder, int[] inOrder){
+        rootNode  = initTree(preOrder, 0, preOrder.length - 1, inOrder, 0, inOrder.length - 1 );
+    }
+
+    public TreeNode initTree(int[] preOrder, int start1, int end1, int[] inOrder, int start2, int end2){
+        if (start1 > end1 || start2 > end2){
+            return null;
+        }
+        int rootVal = preOrder[start1];
+        TreeNode rootNode = new TreeNode(rootVal);
+        //找到根节点的位置
+        int rootIndex = findIndexInArray(inOrder,rootVal,start2,end2);
+        int offSet = rootIndex - start2 -1;//左子树节点个数
+        //构建左子树
+        TreeNode left = initTree(preOrder, start1 + 1, start1 + 1 + offSet, inOrder, start2, start2 + offSet);
+        //构建右子树
+        TreeNode right = initTree(preOrder, start1 + offSet + 2, end1, inOrder, rootIndex + 1, end2);
+        rootNode.left = left;
+        rootNode.right = right;
+        return rootNode;
+    }
+
+    /**
+     * 求解根节点索引
+     * @param a
+     * @param x
+     * @param start
+     * @param end
+     * @return
+     */
+    public int findIndexInArray(int[] a, int x, int start, int end){
+        for (int i = start; i <= end; i++){
+            if (a[i] == x){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
-        // Adding a few test entries
-        tree.insert(10);
-        tree.insert(9);
-        tree.insert(3);
-        tree.insert(12);
-        tree.insert(14);
-        tree.insert(7);
-        tree.insert(6);
-        tree.insert(11);
-        tree.insert(1);
-        tree.insert(2);
-        // Test printing
-        tree.printInOrder();
-        // Deleting a valid node
-        tree.delete(9);
-        // Print again
-        tree.printInOrder();
-        // Searching an invalid node, same can be tested for delete as both use same logic
-        // but with a slight different approach to find the node
-        try {
-            tree.search(4);
-            System.out.println("Node was found successfully.");
-        } catch (Exception e) {
-            System.out.println("Invalid Search");
+        int[] arr = {10,9,3,12,14,7,6,11,1,2};
+        tree.buildBST(arr); //构建二叉树
+
+        System.out.println("层序遍历：");
+        tree.layerPrint();
+        System.out.println(" ");
+
+        System.out.println("中序遍历：");
+        tree.printInOrder(tree.rootNode);
+        System.out.println(" ");
+
+        System.out.println("前序遍历：");
+        tree.printPreOrder(tree.rootNode);
+        System.out.println(" ");
+
+        System.out.println("后序遍历：");
+        tree.printPostPrint(tree.rootNode);
+        System.out.println(" ");
+
+        //删除节点
+        //tree.delete(9);
+
+        //查找节点
+        if (tree.search(4) != null){
+            System.out.println("查找到该节点");
+        }else{
+            System.out.println("该节点不存在");
         }
-        try {
-            tree.delete(9);
-        } catch (Exception  e) {
-            System.out.println("Cannot delete, Node not present.");
-        }
+
+        //由前序遍历和中序遍历构建二叉树
+        BinarySearchTree t = new BinarySearchTree();
+        int[] pre = {10,9,3,1,2,7,6,12,11,14};
+        int[] in = {1,2,3,6,7,9,10,11,12,14};
+        t.initTree(pre,in);
+        System.out.println("后续遍历：");
+        t.printPostPrint(t.rootNode);
     }
 }
