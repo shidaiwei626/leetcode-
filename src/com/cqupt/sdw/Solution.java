@@ -1943,6 +1943,66 @@ public class Solution {
     }
 
     /**
+     * 数组中数字的全排列问题，递归实现.
+     * 思路：设一组数p = {r1, r2, r3, ... ,rn}, 全排列为perm(p)，pn = p - {rn}。
+     * 因此perm(p) = r1perm(p1), r2perm(p2), r3perm(p3), ... , rnperm(pn)。当n = 1时perm(p} = r1。
+     * 为了更容易理解，将整组数中的所有的数分别与第一个数交换，这样就总是在处理后n-1个数的全排列。
+     * @param nums
+     */
+    public List<List<Integer>> fullPermutation(int[] nums){
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        dfs(res, nums, 0);
+        return res;
+    }
+    private void dfs(List<List<Integer>> res, int[] nums, int j) {
+        if (j == nums.length) {
+            List<Integer> temp = new ArrayList<Integer>();
+            for (int num : nums) {
+                temp.add(num);
+            }
+            res.add(temp);
+        }
+        for (int i = j; i < nums.length; i++) {
+            swap(nums, i, j);
+            dfs(res, nums, j+1);
+            swap(nums, i, j);
+        }
+    }
+    private void swap(int[] nums, int m, int n) {
+        int temp = nums[m];
+        nums[m] = nums[n];
+        nums[n] = temp;
+    }
+
+    /**
+     * 非递归实现全排列。
+     * 思路：非递归实现的思路，假设我们有了当前前 i 个元素的组合，当第 i+1个元素加入时，
+     * 我们需要做的是将这个元素加入之前的每一个结果，并且放在每个结果的每个位置，因为之前的结果没有重复，
+     * 所以加入新元素的结果也不会有重复（这里是假定数字集合没有重复）
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> first = new ArrayList<>();
+        first.add(nums[0]);
+        res.add(first);
+        for(int i = 1; i < nums.length; i++) {
+            List<List<Integer>> newRes = new ArrayList<>();
+            for(List<Integer> temp : res) {
+                int size = temp.size() + 1;
+                for(int j = 0; j < size; j++) {
+                    List<Integer> item = new ArrayList<>(temp);
+                    item.add(j, nums[i]);
+                    newRes.add(item);
+                }
+            }
+            res = newRes;
+        }
+        return res;
+    }
+
+    /**
      * 冒泡排序法：
      * 思路:两两进行比较，数值大的放在后面，执行一次循环后，最大数值位于最后一位。
      */
